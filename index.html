@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FPL Tool</title>
+    <meta name="description" content="FPL Tool"/>
+    <link rel="stylesheet" href="./stylesheet.css" type="text/css" />
+  </head>
+  <body>
+    <header>
+      <h1>FPL Tool</h1>
+    </header>
+    <p>Enter your username:</p>
+
+    <form id="frm1" action="/action_page.php">
+      First name: <input type="text" name="fname"><br>
+      Last name: <input type="text" name="lname"><br><br>
+      <input type="button" onclick="myFunction()" value="Submit">
+    </form>
+
+    <script>
+    function myFunction() {
+      document.getElementById("frm1").submit();
+    }
+    </script>
+  </body>
+</html>
