@@ -3,6 +3,56 @@
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });*/
+function validateCORSHeaders(responseHeaders) {
+  // Check if the required CORS headers are present
+  if (!responseHeaders.hasOwnProperty('Access-Control-Allow-Origin') ||
+      !responseHeaders.hasOwnProperty('Access-Control-Allow-Methods') ||
+      !responseHeaders.hasOwnProperty('Access-Control-Allow-Headers') ||
+      !responseHeaders.hasOwnProperty('Access-Control-Max-Age')) {
+      return false; // If any required header is missing, return false
+  }
+
+  // Check if the 'Access-Control-Allow-Origin' header value is valid
+  const allowOrigin = responseHeaders['Access-Control-Allow-Origin'];
+  if (allowOrigin !== '*' && typeof allowOrigin !== 'string') {
+      return false;
+  }
+
+  // Check if the 'Access-Control-Allow-Methods' header value is valid
+  const allowMethods = responseHeaders['Access-Control-Allow-Methods'];
+  if (typeof allowMethods !== 'string') {
+      return false;
+  }
+
+  // Check if the 'Access-Control-Allow-Headers' header value is valid
+  const allowHeaders = responseHeaders['Access-Control-Allow-Headers'];
+  if (typeof allowHeaders !== 'string') {
+      return false;
+  }
+
+  // Check if the 'Access-Control-Max-Age' header value is valid
+  const maxAge = responseHeaders['Access-Control-Max-Age'];
+  if (isNaN(maxAge)) {
+      return false;
+  }
+
+  // All checks passed, CORS headers are valid
+  return true;
+}
+
+// Example usage:
+const responseHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Max-Age': '3600'
+};
+
+if (validateCORSHeaders(responseHeaders)) {
+  console.log('CORS headers are valid');
+} else {
+  console.error('CORS headers are invalid');
+}
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
   //const userTeamURL = `https://draft.premierleague.com/api/draft/entry/${userID}/transactions`;
@@ -12,6 +62,7 @@ function getTeamInfo() {
       return;
   }
   fetch(userTeamURL)
+  
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -25,6 +76,7 @@ function getTeamInfo() {
     })
     .catch(error => {
       console.error('There was a problem fetching the data:', error);
+
     });
 }
 
