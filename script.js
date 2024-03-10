@@ -20,19 +20,27 @@ function getTeamInfo() {
     })
     .then(data => {
     // Work with the JSON data here
-      displayTeam(data);
+      //displayTeam(data);
+      console.log(data);
     })
     .catch(error => {
       console.error('There was a problem fetching the data:', error);
     });
 }
-function displayTeam(data) { 
-  const myLineup = document.getElementById('myLineup');
 
-  data.forEach(elements => {
-    console.log(`ID: ${elements.id}`, `Draft Rank: ${elements.draft_rank}`);
-    /*const player = document.createElement('p');
-    player.textContent = `Position: ${picks.position}`; // Example properties from the JSON object
-    myLineup.appendChild(player);*/
+/*
+fetch('https://example.com/data.json')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data); // Log the fetched JSON data to the console
+  })
+  .catch(error => {
+    console.error('There was a problem fetching the data:', error);
   });
-}
+
+  */
