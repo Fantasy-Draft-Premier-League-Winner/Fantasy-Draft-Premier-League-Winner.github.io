@@ -28,8 +28,8 @@ function getTeamInfo() {
 function displayTeam(data) { 
   const myLineup = document.getElementById('myLineup');
 
-  data.forEach(item => {
-    console.log("IT WORKS");
+  data.forEach(picks => {
+    console.log(`Position: ${picks.position}`);
     /*const player = document.createElement('p');
     player.textContent = `Position: ${picks.position}`; // Example properties from the JSON object
     myLineup.appendChild(player);*/
