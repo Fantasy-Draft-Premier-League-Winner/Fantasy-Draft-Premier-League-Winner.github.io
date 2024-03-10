@@ -29,9 +29,9 @@ function displayTeam(data) {
   const myLineup = document.getElementById('myLineup');
 
   data.forEach(picks => {
-    const player = document.createElement('div');
+    console.log("IT WORKS");
+    /*const player = document.createElement('p');
     player.textContent = `Position: ${picks.position}`; // Example properties from the JSON object
-    myLineup.appendChild(player);
+    myLineup.appendChild(player);*/
   });
-  
 }
