@@ -28,7 +28,7 @@ function getTeamInfo() {
 function displayTeam(data) { 
   const myLineup = document.getElementById('myLineup');
 
-  data.forEach(picks => {
+  data.forEach(item => {
     console.log("IT WORKS");
     /*const player = document.createElement('p');
     player.textContent = `Position: ${picks.position}`; // Example properties from the JSON object
