@@ -5,7 +5,8 @@
 });*/
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
-  const userTeamURL = `https://draft.premierleague.com/api/draft/entry/${userID}/transactions`;
+  //const userTeamURL = `https://draft.premierleague.com/api/draft/entry/${userID}/transactions`;
+  const userTeamURL = "https://draft.premierleague.com/api/bootstrap-static";
   if (!userID) {
       alert('Please enter your ID');
       return;
@@ -28,8 +29,8 @@ function getTeamInfo() {
 function displayTeam(data) { 
   const myLineup = document.getElementById('myLineup');
 
-  data.forEach(picks => {
-    console.log(`Position: ${picks.position}`);
+  data.forEach(elements => {
+    console.log(`ID: ${elements.id}`, `Draft Rank: ${elements.draft_rank}`);
     /*const player = document.createElement('p');
     player.textContent = `Position: ${picks.position}`; // Example properties from the JSON object
     myLineup.appendChild(player);*/
