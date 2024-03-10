@@ -10,18 +10,14 @@
     <header>
       <h1>FPL Tool</h1>
     </header>
-    <p>Enter your username:</p>
+    <p>To use this tool, you must find your user ID (can be found as the number in the URL when you click on "Points" on the Fantasy Premier League website):</p>
 
-    <form id="frm1" action="/action_page.php">
-      First name: <input type="text" name="fname"><br>
-      Last name: <input type="text" name="lname"><br><br>
-      <input type="button" onclick="myFunction()" value="Submit">
+    <form id="userIDform">
+      <label for="userID">Enter your user ID: </label>
+      <input type="text" id="userID" name="userID">
+      <button type="submit">Submit</button>
     </form>
-
-    <script>
-    function myFunction() {
-      document.getElementById("frm1").submit();
-    }
-    </script>
+    
+    <script src="./script.js"></script>
   </body>
 </html>
