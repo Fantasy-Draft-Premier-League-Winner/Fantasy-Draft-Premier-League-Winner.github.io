@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&family=Noto+Sans+JP:wght@100..900&display=swap');
+
+body {
+  padding: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  text-align: center;
+}
+header {
+  font-family: 'Madimi One', sans-serif;
+}
+header a {
+  margin: 16px;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+input {
+  font-family: 'Noto Sans JP', sans-serif;
+  padding: 10px 16px;
+}
+#submitBtn {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: #00c264; 
+  border-radius: 8px; 
+  border-style: none; 
+  box-sizing: border-box; 
+  color: #FFFFFF; 
+  cursor: pointer; 
+  display: inline-block; 
+  font-weight: 500; 
+  height: 40px; 
+  line-height: 20px; 
+  list-style: none; 
+  margin: 0; 
+  outline: none; 
+  padding: 10px 16px; 
+  position: relative; 
+  text-align: center; 
+  text-decoration: none; 
+  transition: color 100ms; 
+  vertical-align: baseline; 
+  user-select: none; 
+  -webkit-user-select: none; 
+  touch-action: manipulation;
+}
+#submitBtn:hover, #submitBtn:focus { 
+  background-color: #00ce6b; 
+}
