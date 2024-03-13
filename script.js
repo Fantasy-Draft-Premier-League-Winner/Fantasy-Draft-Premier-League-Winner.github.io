@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_252ff28/"; 
+const corsURL = "https://justcors.com/tl_dd7abff/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
@@ -46,31 +46,33 @@ function getTeam(obj) {
 }
 const playerData = [
   //[playerlastname, minutes, goals, assists],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0],
-  ["","", 0, 0, 0]
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0]
 ];
 
 function getStats(data) {
+
   for (let row = 0; row < playerData.length; row++) {
     for (let col = 0; col < playerData[0].length; col++) {
       if(col == 0) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].first_name;
+        var teamID = (data.elements[(playerIDs[row]-1)].team)
+        playerData[row][col] = data.teams[(teamID - 1)].short_name;
       }
       if(col == 1) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].second_name;
+        playerData[row][col] = (data.elements[(playerIDs[row]-1)].first_name).concat(" ", data.elements[(playerIDs[row]-1)].second_name);
       }
       if(col == 2) {
         playerData[row][col] = data.elements[(playerIDs[row]-1)].minutes;
@@ -81,14 +83,19 @@ function getStats(data) {
       if(col == 4) {
         playerData[row][col] = data.elements[(playerIDs[row]-1)].assists;
       }
+      if(col == 5) {
+        var minutes = (data.elements[(playerIDs[row]-1)].minutes)
+        minutes = minutes/90;
+
+        playerData[row][col] = ((data.elements[(playerIDs[row]-1)].expected_goal_involvements) / minutes).toFixed(2);
+      }
     }
   }
   console.log(playerData);
 }
 
 function display() { 
-  const lineup = document.getElementById("myLineup");
-  const table = document.createElement("table");
+  const table = document.getElementById("lineupContainer");
   for (let i = 0; i < playerData.length; i++) { 
     const row = document.createElement('tr');
     for (let j = 0; j < playerData[0].length; j++) { 
@@ -97,11 +104,18 @@ function display() {
       row.appendChild(cell);
     }
     table.appendChild(row);
+    table.style.width = '80%';
+    table.style.marginLeft = 'auto';
+    table.style.marginRight = 'auto';
+    table.style.padding = '10px';
+    const headerRow = table.querySelector('tr');
+    const headerCells = headerRow.querySelectorAll('th');
+    headerCells.forEach(cell => {
+      cell.classList.add('tableHeader');
+      cell.style.fontWeight = 'bold';
+    });
   }
-  lineup.appendChild(table);
 }
-
-/* Tomorrow */
 
 
 
