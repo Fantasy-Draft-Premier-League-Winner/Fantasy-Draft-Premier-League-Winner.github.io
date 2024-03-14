@@ -47,21 +47,21 @@ function getTeam(obj) {
 }
 const playerData = [
   //[playerlastname, minutes, goals, assists],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0]
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0],
+  ["", "", "", 0, 0, 0, 0]
 ];
 
 function getStats(data) {
@@ -76,15 +76,26 @@ function getStats(data) {
         playerData[row][col] = (data.elements[(playerIDs[row]-1)].first_name).concat(" ", data.elements[(playerIDs[row]-1)].second_name);
       }
       if(col == 2) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].minutes;
+        if (data.elements[(playerIDs[row]-1)].element_type == 1) {
+          playerData[row][col] = "GK";
+        } else if (data.elements[(playerIDs[row]-1)].element_type == 2) {
+          playerData[row][col] = "DEF";
+        } else if (data.elements[(playerIDs[row]-1)].element_type == 3) {
+          playerData[row][col] = "MID";
+        } else {
+          playerData[row][col] = "FWD";
+        }
       }
       if(col == 3) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].goals_scored;
+        playerData[row][col] = data.elements[(playerIDs[row]-1)].minutes;
       }
       if(col == 4) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].assists;
+        playerData[row][col] = data.elements[(playerIDs[row]-1)].goals_scored;
       }
       if(col == 5) {
+        playerData[row][col] = data.elements[(playerIDs[row]-1)].assists;
+      }
+      if(col == 6) {
         var minutes = (data.elements[(playerIDs[row]-1)].minutes)
         minutes = minutes/90;
 
@@ -99,7 +110,7 @@ function display() {
   const table = document.getElementById("lineupContainer");
   
   const headerRow = document.createElement('tr');
-  const headers = ["Team", "Name", "Minutes", "Goals", "Assists", "EGI/90"];
+  const headers = ["Team", "Name", "Position", "Minutes", "Goals", "Assists", "EGI/90"];
   for (let header of headers) {
     const headerCell = document.createElement('th');
     headerCell.textContent = header;
@@ -146,6 +157,7 @@ function getAllInfo() {
     });
 }
 // right now this is only testing the code and not finding the top 5. Make sure to edit so it iterates through the array and adds it in descending order properly
+// element type is position (1 = gk, 2 = def, 3 = mid, 4 = fwd)
 function getEgi90(data) {
   var topGoal = 0;
   for (let x = 0; x < Object.keys(data.elements).length; x++) {
