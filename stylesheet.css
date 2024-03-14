@@ -19,6 +19,27 @@ input {
   font-family: 'Noto Sans JP', sans-serif;
   padding: 10px 16px;
 }
+table {
+  width: 100%;
+  margin-left: auto; 
+  margin-right: auto;
+  padding: 10px;
+}
+table .tableHeader {
+  font-weight: bold;
+  margin: 20px;
+}
+td {
+  padding:10px;
+  margin-left: auto; 
+  margin-right: auto;
+  border-top: 1px solid black;
+}
+#lineupContainer th:nth-child(1) { width: 100px; }
+#lineupContainer th:nth-child(2) { width: 200px; }
+#lineupContainer th:nth-child(3) { width: 100px; }
+#lineupContainer th:nth-child(4) { width: 100px; }
+#lineupContainer th:nth-child(5) { width: 100px; }
 #submitBtn {
   font-family: 'Noto Sans JP', sans-serif;
   background-color: #00c264; 

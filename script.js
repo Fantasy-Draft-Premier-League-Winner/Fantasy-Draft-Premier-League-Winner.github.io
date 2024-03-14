@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_dd7abff/"; 
+const corsURL = "https://justcors.com/tl_ca369da/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
@@ -26,6 +26,7 @@ function getTeamInfo() {
       console.log(data.elements[523].saves);
       getTeam(userID);
       getStats(data);
+      getEgi90(data);
       display();
       //displayTeam(data);
       //iterateObject(data);
@@ -96,6 +97,16 @@ function getStats(data) {
 
 function display() { 
   const table = document.getElementById("lineupContainer");
+  
+  const headerRow = document.createElement('tr');
+  const headers = ["Team", "Name", "Minutes", "Goals", "Assists", "EGI/90"];
+  for (let header of headers) {
+    const headerCell = document.createElement('th');
+    headerCell.textContent = header;
+    headerRow.appendChild(headerCell);
+  }
+  table.appendChild(headerRow);
+  
   for (let i = 0; i < playerData.length; i++) { 
     const row = document.createElement('tr');
     for (let j = 0; j < playerData[0].length; j++) { 
@@ -104,22 +115,65 @@ function display() {
       row.appendChild(cell);
     }
     table.appendChild(row);
-    table.style.width = '80%';
-    table.style.marginLeft = 'auto';
-    table.style.marginRight = 'auto';
-    table.style.padding = '10px';
-    const headerRow = table.querySelector('tr');
-    const headerCells = headerRow.querySelectorAll('th');
-    headerCells.forEach(cell => {
-      cell.classList.add('tableHeader');
-      cell.style.fontWeight = 'bold';
-    });
+    if (i === playerData.length - 1) {
+      row.style.borderBottom = "1px solid black";
+    }
   }
 }
+const egi90PlayerIDs = [];
+const bestEgi90Data = [
+  //[player, egi/90],
+  ["", 0],
+  ["", 0],
+  ["", 0],
+  ["", 0],
+  ["", 0],
+  ["", 0],
+];
+function getAllInfo() {
+  fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      getStats(data);
+      //displayGetEGI90();
+    })
+    .catch(error => {
+      console.error('There was a problem fetching the data:', error);
+    });
+}
+function getEgi90(data) {
+  var topGoal = 0;
+  for (let x = 0; x < Object.keys(data.elements).length; x++) {
+    if (data.elements[x].goals_scored > topGoal) {
+      topGoal = data.elements[x].goals_scored;
+    }
+  }
+  console.log(topGoal)
+  for (let row = 0; row < bestEgi90Data.length; row++) {
+    for (let col = 0; col < bestEgi90Data[0].length; col++) {
+      if(col == 0) {
+        var teamID = (data.elements[(playerIDs[row]-1)].team)
+        bestEgi90Data[row][col] = data.teams[(teamID - 1)].short_name;
+      }
+      if(col == 1) {
+        var minutes = (data.elements[(playerIDs[row]-1)].minutes)
+        minutes = minutes/90;
 
+        bestEgi90Data[row][col] = ((data.elements[(playerIDs[row]-1)].expected_goal_involvements) / minutes).toFixed(2);
+      }
+    }
+  }
+  console.log(bestEgi90Data);
+}
 
-
-
+function displayGetEGI90() {
+  // same as display() for getEgi90(data) --> bestEgi90Data --> headers: names, egi90
+}
 
 
 
