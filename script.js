@@ -124,11 +124,10 @@ const egi90PlayerIDs = [];
 const bestEgi90Data = [
   //[player, egi/90],
   ["", 0],
-  ["", 0],
-  ["", 0],
-  ["", 0],
-  ["", 0],
-  ["", 0],
+  ["a", 0],
+  ["a", 0],
+  ["a", 0],
+  ["a", 0]
 ];
 function getAllInfo() {
   fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
@@ -146,15 +145,25 @@ function getAllInfo() {
       console.error('There was a problem fetching the data:', error);
     });
 }
+// right now this is only testing the code and not finding the top 5. Make sure to edit so it iterates through the array and adds it in descending order properly
 function getEgi90(data) {
   var topGoal = 0;
   for (let x = 0; x < Object.keys(data.elements).length; x++) {
-    if (data.elements[x].goals_scored > topGoal) {
-      topGoal = data.elements[x].goals_scored;
+    var minutes = ((data.elements[x].minutes) / 90);
+    var egi = data.elements[x].expected_goal_involvements;
+    var egi90 = (egi/minutes).toFixed(2);
+  
+    if (egi90 > bestEgi90Data[0][1] && minutes >= 5 && (data.elements[x].form) > 0 && data.elements[x].element_type == 3) {
+      bestEgi90Data[0][1] = egi90;
+      bestEgi90Data[0][0] = (data.elements[x].first_name).concat(" ", data.elements[x].second_name);
     }
   }
-  console.log(topGoal)
-  for (let row = 0; row < bestEgi90Data.length; row++) {
+  console.log(bestEgi90Data);
+}
+  
+  
+  
+  /*for (let row = 0; row < bestEgi90Data.length; row++) {
     for (let col = 0; col < bestEgi90Data[0].length; col++) {
       if(col == 0) {
         var teamID = (data.elements[(playerIDs[row]-1)].team)
@@ -169,7 +178,9 @@ function getEgi90(data) {
     }
   }
   console.log(bestEgi90Data);
+
 }
+*/
 
 function displayGetEGI90() {
   // same as display() for getEgi90(data) --> bestEgi90Data --> headers: names, egi90
