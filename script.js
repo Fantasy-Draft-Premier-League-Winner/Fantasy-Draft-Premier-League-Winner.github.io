@@ -30,8 +30,6 @@ function getTeamInfo() {
       display();
       //displayTeam(data);
       //iterateObject(data);
-      
-
     })
     .catch(error => {
       console.error('There was a problem fetching the data:', error);
@@ -47,21 +45,21 @@ function getTeam(obj) {
 }
 const playerData = [
   //[playerlastname, minutes, goals, assists],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0],
-  ["", "", "", 0, 0, 0, 0]
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0]
 ];
 
 function getStats(data) {
@@ -72,34 +70,34 @@ function getStats(data) {
         var teamID = (data.elements[(playerIDs[row]-1)].team)
         playerData[row][col] = data.teams[(teamID - 1)].short_name;
       }
-      if(col == 1) {
-        playerData[row][col] = (data.elements[(playerIDs[row]-1)].first_name).concat(" ", data.elements[(playerIDs[row]-1)].second_name);
+      if (col == 1) {
+        var fullname = (data.elements[(playerIDs[row] - 1)].first_name).concat(" ", data.elements[(playerIDs[row] - 1)].second_name)
+        var position;
+        if (data.elements[(playerIDs[row]-1)].element_type == 1) {
+          position = "GK";
+        } else if (data.elements[(playerIDs[row]-1)].element_type == 2) {
+          position = "DEF";
+        } else if (data.elements[(playerIDs[row]-1)].element_type == 3) {
+          position = "MID";
+        } else {
+          position = "FWD";
+        }
+        playerData[row][col] = fullname.concat(" ", `(${position})`);
       }
       if(col == 2) {
-        if (data.elements[(playerIDs[row]-1)].element_type == 1) {
-          playerData[row][col] = "GK";
-        } else if (data.elements[(playerIDs[row]-1)].element_type == 2) {
-          playerData[row][col] = "DEF";
-        } else if (data.elements[(playerIDs[row]-1)].element_type == 3) {
-          playerData[row][col] = "MID";
-        } else {
-          playerData[row][col] = "FWD";
-        }
-      }
-      if(col == 3) {
         playerData[row][col] = data.elements[(playerIDs[row]-1)].minutes;
       }
+      if(col == 3) {
+        playerData[row][col] = data.elements[(playerIDs[row] - 1)].goals_scored;
+      }
       if(col == 4) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].goals_scored;
+        playerData[row][col] = data.elements[(playerIDs[row] - 1)].assists;
       }
       if(col == 5) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].assists;
-      }
-      if(col == 6) {
         var minutes = (data.elements[(playerIDs[row]-1)].minutes)
         minutes = minutes/90;
 
-        playerData[row][col] = ((data.elements[(playerIDs[row]-1)].expected_goal_involvements) / minutes).toFixed(2);
+        playerData[row][col] = ((data.elements[(playerIDs[row] - 1)].expected_goal_involvements) / minutes).toFixed(2);
       }
     }
   }
@@ -107,10 +105,10 @@ function getStats(data) {
 }
 
 function display() { 
-  const table = document.getElementById("lineupContainer");
+  const table = document.getElementById("theLineup");
   
   const headerRow = document.createElement('tr');
-  const headers = ["Team", "Name", "Position", "Minutes", "Goals", "Assists", "EGI/90"];
+  const headers = ["Team", "Name (Position)", "Minutes", "Goals", "Assists", "EGI/90"];
   for (let header of headers) {
     const headerCell = document.createElement('th');
     headerCell.textContent = header;

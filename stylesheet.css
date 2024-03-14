@@ -4,6 +4,7 @@ body {
   padding: 10px;
   font-family: 'Noto Sans JP', sans-serif;
   text-align: center;
+  background-color: #fffdf5;
 }
 header {
   font-family: 'Madimi One', sans-serif;
@@ -19,27 +20,25 @@ input {
   font-family: 'Noto Sans JP', sans-serif;
   padding: 10px 16px;
 }
-table {
-  width: 100%;
-  margin-left: auto; 
-  margin-right: auto;
-  padding: 10px;
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
-table .tableHeader {
+#theLineup {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto; 
+  padding: 20px;
+  font-size: 0.8rem;
+}
+.bold {
   font-weight: bold;
-  margin: 20px;
 }
-td {
-  padding:10px;
-  margin-left: auto; 
-  margin-right: auto;
-  border-top: 1px solid black;
+#theLineup .tableHeader {
+  font-weight: bold;
 }
-#lineupContainer th:nth-child(1) { width: 100px; }
-#lineupContainer th:nth-child(2) { width: 200px; }
-#lineupContainer th:nth-child(3) { width: 100px; }
-#lineupContainer th:nth-child(4) { width: 100px; }
-#lineupContainer th:nth-child(5) { width: 100px; }
+#lineupContainer th:nth-child(2) { width: 40%; }
+
 #submitBtn {
   font-family: 'Noto Sans JP', sans-serif;
   background-color: #00c264; 
@@ -53,7 +52,7 @@ td {
   height: 40px; 
   line-height: 20px; 
   list-style: none; 
-  margin: 0; 
+  margin-left: 7px; 
   outline: none; 
   padding: 10px 16px; 
   position: relative; 
