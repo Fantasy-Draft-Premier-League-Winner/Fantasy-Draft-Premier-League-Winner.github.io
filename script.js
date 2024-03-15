@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_ca369da/"; 
+const corsURL = "https://justcors.com/tl_ab0e627/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
@@ -129,15 +129,7 @@ function display() {
     }
   }
 }
-const egi90PlayerIDs = [];
-const bestEgi90Data = [
-  //[player, egi/90],
-  ["", 0],
-  ["a", 0],
-  ["a", 0],
-  ["a", 0],
-  ["a", 0]
-];
+var bestEgi90 = [];
 function getAllInfo() {
   fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
     .then(response => {
@@ -154,22 +146,28 @@ function getAllInfo() {
       console.error('There was a problem fetching the data:', error);
     });
 }
-// right now this is only testing the code and not finding the top 5. Make sure to edit so it iterates through the array and adds it in descending order properly
-// element type is position (1 = gk, 2 = def, 3 = mid, 4 = fwd)
+// working, can change element type in the if statement to an input so we can sort for def mid and fwd
 function getEgi90(data) {
-  var topGoal = 0;
+
   for (let x = 0; x < Object.keys(data.elements).length; x++) {
     var minutes = ((data.elements[x].minutes) / 90);
     var egi = data.elements[x].expected_goal_involvements;
     var egi90 = (egi/minutes).toFixed(2);
-  
-    if (egi90 > bestEgi90Data[0][1] && minutes >= 5 && (data.elements[x].form) > 0 && data.elements[x].element_type == 3) {
-      bestEgi90Data[0][1] = egi90;
-      bestEgi90Data[0][0] = (data.elements[x].first_name).concat(" ", data.elements[x].second_name);
+    if (minutes >= 5 && (data.elements[x].form) > 0 && data.elements[x].element_type == 3) {
+      bestEgi90.push({ name: `${data.elements[x].first_name} ${data.elements[x].second_name}`, egi90 });
+
     }
+    
   }
-  console.log(bestEgi90Data);
+  bestEgi90.sort((a, b) => b.egi90 - a.egi90);
+
+  bestEgi90 = bestEgi90.slice(0, 10);
+  //we can change the second number in the slice function to accomodate how many players we want to show (top 5 instead of top 10 for example)
+
+  
+  console.log(bestEgi90);
 }
+
   
   
   
