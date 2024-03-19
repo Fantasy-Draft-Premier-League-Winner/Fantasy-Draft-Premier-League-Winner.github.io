@@ -8,12 +8,37 @@
   </head>
   <body>
     <header>
-      <h1>Transaction Guide</h1>
+      <h1>FPL Tool Transaction Guide</h1>
       <div id="nav">
+        <a href="index.html">Home</a>
         <a href="transactions.html">Transaction Guide</a>
       </div>
     </header>
-    <p>To use this tool, you must find your user ID (can be found as the number in the URL when you click on "Points" on the Fantasy Premier League website):</p>
+    <div id="viewDrop">
+      <label>View:</label>
+      <select id="viewOptions">
+        <option selected="selected">Select</option>
+        <option value="egi90">Expected Goal Involvements Per Game</option>
+        <option value="eg">Expected Goals</option>
+        <option value="ea">Expected Assists</option>
+      </select>
+    </div>
+    <div id="sortDrop">
+      <label>Sort by:</label>
+      <select id="sort">
+        <option selected="selected">Select</option>
+        <option value="">Position</option>
+        <option value="">Descending Order</option>
+      </select>
+    </div>
+    <div id="dataTable">
+      <table id="theTable"></table>
+    </div>
+
+
+
+    <!--Drop down for different stats View Best EGI 90, most scorer; sort by position-->
     <script src="./script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   </body>
 </html>

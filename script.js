@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_ab0e627/"; 
+const corsURL = "https://justcors.com/tl_c7052df/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
@@ -44,22 +44,22 @@ function getTeam(obj) {
   console.log(playerIDs);
 }
 const playerData = [
-  //[playerlastname, minutes, goals, assists],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0],
-  ["", "", 0, 0, 0, 0]
+  //[team, playerfirstlastname, avgmin, goals, assists, egi90, form],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0],
+  ["", "", 0, 0, 0, 0, 0]
 ];
 
 function getStats(data) {
@@ -85,7 +85,10 @@ function getStats(data) {
         playerData[row][col] = fullname.concat(" ", `(${position})`);
       }
       if(col == 2) {
-        playerData[row][col] = data.elements[(playerIDs[row]-1)].minutes;
+
+        const min = data.elements[(playerIDs[row]-1)].minutes;
+        // HAVING ERRORS: Figure out how to do later
+        playerData[row][col] = Math.floor(min/28);
       }
       if(col == 3) {
         playerData[row][col] = data.elements[(playerIDs[row] - 1)].goals_scored;
@@ -96,8 +99,10 @@ function getStats(data) {
       if(col == 5) {
         var minutes = (data.elements[(playerIDs[row]-1)].minutes)
         minutes = minutes/90;
-
         playerData[row][col] = ((data.elements[(playerIDs[row] - 1)].expected_goal_involvements) / minutes).toFixed(2);
+      }
+      if(col == 6) {
+        playerData[row][col] = data.elements[(playerIDs[row]-1)].form;
       }
     }
   }
@@ -108,7 +113,7 @@ function display() {
   const table = document.getElementById("theLineup");
   
   const headerRow = document.createElement('tr');
-  const headers = ["Team", "Name (Position)", "Minutes", "Goals", "Assists", "EGI/90"];
+  const headers = ["Team", "Name (Position)", "Avg. Minutes", "Goals", "Assists", "EGI/90", "Form"];
   for (let header of headers) {
     const headerCell = document.createElement('th');
     headerCell.textContent = header;
@@ -129,6 +134,7 @@ function display() {
     }
   }
 }
+
 var bestEgi90 = [];
 function getAllInfo() {
   fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
@@ -153,15 +159,17 @@ function getEgi90(data) {
     var minutes = ((data.elements[x].minutes) / 90);
     var egi = data.elements[x].expected_goal_involvements;
     var egi90 = (egi/minutes).toFixed(2);
-    if (minutes >= 5 && (data.elements[x].form) > 0 && data.elements[x].element_type == 3) {
+    if (minutes >= 3 && (data.elements[x].form) > 0 && data.elements[x].element_type == 3) {
       bestEgi90.push({ name: `${data.elements[x].first_name} ${data.elements[x].second_name}`, egi90 });
 
     }
     
   }
+  // Sorts by descending order
   bestEgi90.sort((a, b) => b.egi90 - a.egi90);
 
-  bestEgi90 = bestEgi90.slice(0, 10);
+  // How many players it returns
+  bestEgi90 = bestEgi90.slice(0, 100);
   //we can change the second number in the slice function to accomodate how many players we want to show (top 5 instead of top 10 for example)
 
   
@@ -190,6 +198,71 @@ function getEgi90(data) {
 }
 */
 
+// Team name, full name, position, statistic
+const transactionData = [
+  ["", "", "", 0],
+  ["", "", "", 0],
+  ["", "", "", 0],
+  ["", "", "", 0],
+  ["", "", "", 0]
+];
+document.getElementById('viewOptions')[0].addEventListener('change', function () {
+  getTransactionInfo();
+});
+function getTransactionInfo() {
+  fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      displayTransaction(data);
+    })
+    .catch(error => {
+      console.error('There was a problem fetching the data:', error);
+    });
+}
+
+function displayTransaction(data) {
+  // display the first 3 rows then call displayGetEGI90()
+  for (let row = 0; row < transactionData.length; row++) { 
+    for (let col = 0; col < transactionData[0].length; col++) {
+      if (col == 0) {
+        var teamID = (data.elements[(transactionData[row]-1)].team)
+        transactionData[row][col] = data.teams[(teamID - 1)].short_name;
+      }
+      if (col == 1) {
+        var fullname = (data.elements[(transactionData[row] - 1)].first_name).concat(" ", data.elements[(transactionData[row] - 1)].second_name)
+        transactionData[row][col] = fullname;
+      }
+      if (col = 2) {
+        var position;
+        if (data.elements[(transactionData[row]-1)].element_type == 1) {
+          position = "GK";
+        } else if (data.elements[(transactionData[row]-1)].element_type == 2) {
+          position = "DEF";
+        } else if (data.elements[(transactionData[row]-1)].element_type == 3) {
+          position = "MID";
+        } else {
+          position = "FWD";
+        }
+        transactionData[row][col] = position;
+      }
+      if (col = 3) {
+        var viewOpt = document.getElementById('viewOptions')[0].value;
+        if (viewOpt == "egi90") {
+          displayGetEGI90();
+        } else if (viewOpt = "eg") {
+          displayEG();
+        } else if (viewOpt = "ea") {
+          displayEA();
+        }
+      }
+    }
+  }
+}
 function displayGetEGI90() {
   // same as display() for getEgi90(data) --> bestEgi90Data --> headers: names, egi90
 }
