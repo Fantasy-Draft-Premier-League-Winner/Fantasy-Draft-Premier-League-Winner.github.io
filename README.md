@@ -10,3 +10,4 @@
 
 ## Features to Add
 * Add a color-coding system to highlight players with high stats in a particular area
+* Comment all of our code to make it more readable
