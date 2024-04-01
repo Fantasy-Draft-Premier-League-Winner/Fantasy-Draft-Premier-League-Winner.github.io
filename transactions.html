@@ -25,16 +25,27 @@
     </div>
     <div id="sortDrop">
       <label>Sort by:</label>
-      <select id="sort">
+      <select id="sort" onchange="getTransactionInfo()">
         <option selected="selected">Select</option>
-        <option value="">Position</option>
-        <option value="">Descending Order</option>
+        <option value="pos">Position</option>
+        <option value="desc">Descending Order</option>
       </select>
     </div>
     <div id="dataTable">
       <table id="theTable"></table>
     </div>
 
+    <form id="userIDform" style="visibility: hidden;">
+      <label for="userID" style="visibility: hidden;">Enter your user ID: </label>
+      <input type="text" id="userID" name="userID" style="visibility: hidden;">
+      <button id="submitBtn" onClick="getTeamInfo()" style="visibility: hidden;">Submit</button>
+    </form>
+
+    <footer>
+      <div class="footer-content">
+        <p>This tool was developed and programmed by <span class="developer">Shining</span> and <span class="developer">Kaden</span>.</p>
+      </div>
+    </footer>
 
 
     <!--Drop down for different stats View Best EGI 90, most scorer; sort by position-->
