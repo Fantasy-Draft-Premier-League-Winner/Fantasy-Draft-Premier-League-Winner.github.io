@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_c7052df/"; 
+const corsURL = "https://justcors.com/tl_898d164/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
@@ -88,7 +88,7 @@ function getStats(data) {
 
         const min = data.elements[(playerIDs[row]-1)].minutes;
         // HAVING ERRORS: Figure out how to do later
-        playerData[row][col] = Math.floor(min/28);
+        playerData[row][col] = Math.floor(min/30);
       }
       if(col == 3) {
         playerData[row][col] = data.elements[(playerIDs[row] - 1)].goals_scored;
@@ -106,6 +106,10 @@ function getStats(data) {
       }
     }
   }
+  // sorts in descending form by form can change this to sort by minutes or goals etc
+  playerData.sort(function(a,b){
+    return b[6]-a[6]
+  })
   console.log(playerData);
 }
 
@@ -159,7 +163,7 @@ function getEgi90(data) {
     var minutes = ((data.elements[x].minutes) / 90);
     var egi = data.elements[x].expected_goal_involvements;
     var egi90 = (egi/minutes).toFixed(2);
-    if (minutes >= 3 && (data.elements[x].form) > 0 && data.elements[x].element_type == 3) {
+    if (minutes >= 3 && (data.elements[x].form) > 0 && data.elements[x].element_type == 4) {
       bestEgi90.push({ name: `${data.elements[x].first_name} ${data.elements[x].second_name}`, egi90 });
 
     }
