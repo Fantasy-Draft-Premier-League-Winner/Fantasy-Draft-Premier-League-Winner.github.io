@@ -2,6 +2,7 @@
 
 body {
   padding: 10px;
+  margin: 0;
   font-family: 'Noto Sans JP', sans-serif;
   text-align: center;
   background-color: #fffdf5;
@@ -23,6 +24,21 @@ input {
 th, td {
   padding: 8px;
   border-bottom: 1px solid #ddd;
+}
+footer {
+  color: #393939;
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.footer-content {
+  font-size: 14px;
+}
+.developer {
+  font-weight: 700;
 }
 #theLineup {
   width: 50%;

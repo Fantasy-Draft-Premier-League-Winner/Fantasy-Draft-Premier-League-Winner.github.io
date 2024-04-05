@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_898d164/"; 
+const corsURL = "https://justcors.com/tl_e9841d3/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
@@ -210,9 +210,7 @@ const transactionData = [
   ["", "", "", 0],
   ["", "", "", 0]
 ];
-document.getElementById('viewOptions')[0].addEventListener('change', function () {
-  getTransactionInfo();
-});
+
 function getTransactionInfo() {
   fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
     .then(response => {
@@ -223,6 +221,7 @@ function getTransactionInfo() {
     })
     .then(data => {
       displayTransaction(data);
+      console.log(transactionData);
     })
     .catch(error => {
       console.error('There was a problem fetching the data:', error);
@@ -255,13 +254,16 @@ function displayTransaction(data) {
         transactionData[row][col] = position;
       }
       if (col = 3) {
-        var viewOpt = document.getElementById('viewOptions')[0].value;
-        if (viewOpt == "egi90") {
-          displayGetEGI90();
-        } else if (viewOpt = "eg") {
-          displayEG();
-        } else if (viewOpt = "ea") {
-          displayEA();
+        var selectedOption = dropdown.options[dropdown.selectedIndex];
+        if (selectedOption == "egi90") {
+          //displayGetEGI90();
+          console.log("Display EGI90");
+        } else if (selectedOption = "eg") {
+          //displayEG();
+          console.log("Display EG");
+        } else if (selectedOption = "ea") {
+          //displayEA();
+          console.log("Display EA");
         }
       }
     }
