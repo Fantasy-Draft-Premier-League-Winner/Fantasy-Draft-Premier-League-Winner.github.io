@@ -204,6 +204,7 @@ function getEgi90(data) {
 
 // Team name, full name, position, statistic
 const transactionData = [
+  // Team name, full name, position, statistic
   ["", "", "", 0],
   ["", "", "", 0],
   ["", "", "", 0],
@@ -211,6 +212,10 @@ const transactionData = [
   ["", "", "", 0]
 ];
 
+// I NEED TO FIND A WAY TO RUN THIS ON THE SELECTION OF THE USER ON THE DROP DOWN (ITs currently not being called)
+$('#viewOptions').on('change', function () {
+  getTransactionInfo();
+});
 function getTransactionInfo() {
   fetch(`${corsURL}https://draft.premierleague.com/api/bootstrap-static`)
     .then(response => {
