@@ -3,7 +3,7 @@ document.getElementById('userIDform').addEventListener('submit', function (event
   var userID = document.getElementById('userID').value;
   console.log('User ID:', userID);
 });
-const corsURL = "https://justcors.com/tl_e9841d3/"; 
+const corsURL = "https://justcors.com/tl_1987634/"; 
 
 function getTeamInfo() {
   const userID = document.getElementById('userID').value;
